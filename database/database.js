@@ -8,8 +8,9 @@ export const connectDB = async () => {
         const connection = await mongoose.connect(url, {
             useUnifiedTopology: true,
         });
-        console.log("Database connected sucessfully");
+        console.log(`Database connected sucessfully: ${connection.connection.host}`);
     } catch (error) {
         console.error("Failed to connect database: ", error);
+        process.exit(1);
     }
 };

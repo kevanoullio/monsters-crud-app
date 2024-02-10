@@ -1,7 +1,7 @@
 {
   "name": "monsters-crud-app",
   "version": "1.0.0",
-  "description": "CRUS application using Node.js and express that manages a list of monsters.",
+  "description": "CRUD application using Node.js and express that manages a list of monsters.",
   "main": "index.js",
   "type": "module",
   "scripts": {

@@ -1,6 +1,12 @@
 // Create the express router to handle our products requests
 import express from "express";
-import { getMonsters, getMonster, createMonster, updateMonster, deleteMonster } from "../controllers/monster.controller.js";
+import {
+    getMonsters,
+    getMonster,
+    createMonster,
+    updateMonster,
+    deleteMonster
+} from "../controllers/monster.controller.js";
 
 // Create the express router to handle the monster requests
 const router = express.Router();

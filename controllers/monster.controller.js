@@ -1,4 +1,9 @@
-import { getMonstersFromRepository, updateMonstersInRepository, deleteMonstersFromRepository, createMonstersInRepository } from "../repositories/monster.repository.js";
+import {
+    getMonstersFromRepository,
+    updateMonstersInRepository,
+    deleteMonstersFromRepository,
+    createMonstersInRepository
+} from "../repositories/monster.repository.js";
 
 // Need to implement the following:
 // get/ => return all monsters (array of objects)
