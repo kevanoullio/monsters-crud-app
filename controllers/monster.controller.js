@@ -26,6 +26,17 @@ export const getMonster = async (request, response) => {
     }
 }
 
+export const createMonster = async (request, response) => {
+    const { body } = request;
+    try {
+        const newMonster = await createMonstersInRepository(body);
+        console.log(newMonster);
+        response.status(200).send(newMonster);
+    } catch (error) {
+        response.status(500).send(error.message, "Failed to create a new monster.")
+    }
+}
+
 export const updateMonster = async (request, response) => {
     const { id } = request.params.id; // or request.params
     const { body } = request;
@@ -49,16 +60,5 @@ export const deleteMonster = async (request, response) => {
         } ;
     } catch (error) {
         response.status(500).send(error.message, `Failed to delete monster ${id}.`)
-    }
-}
-
-export const createMonster = async (request, response) => {
-    const { body } = request;
-    try {
-        const newMonster = await createMonstersInRepository(body);
-        console.log(newMonster);
-        response.status(200).send(newMonster);
-    } catch (error) {
-        response.status(500).send(error.message, "Failed to create a new monster.")
     }
 }
