@@ -1,4 +1,4 @@
-import { Monster } from "../models/monster.model.js";
+import Monster from "../models/monster.model.js";
 
 export const getMonstersFromRepository = async (query) => {
     try {

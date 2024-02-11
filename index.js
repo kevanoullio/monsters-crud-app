@@ -22,7 +22,6 @@ app.listen(port, function () {
 });
 
 
-
 // Most Important elements in json:
 // Name, email, phone number
 

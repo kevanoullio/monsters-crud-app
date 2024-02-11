@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 
 const monsterSchema = new mongoose.Schema(
-    // define the schema for the monster model
+    // Define the schema for the monster model
     {
         id: {
-            // auto-increment the id
             type: Number,
             required: [true, "ID is required"],
             unique: true,
