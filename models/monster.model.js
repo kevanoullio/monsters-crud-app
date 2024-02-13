@@ -7,7 +7,6 @@ const monsterSchema = new mongoose.Schema(
             type: Number,
             required: [true, "ID is required"],
             unique: true,
-            default: 0,
             autoIncrement: true,
         },
         name: {
