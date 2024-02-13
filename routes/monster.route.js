@@ -11,7 +11,7 @@ import {
 // Create the express router to handle the monster requests
 const router = express.Router();
 
-// Remove or rewrite everything below
+// Define the routes for the monster router
 router.get("/", getMonsters);
 router.get("/:id", getMonster);
 router.post("/", createMonster);

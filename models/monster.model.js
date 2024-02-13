@@ -84,6 +84,3 @@ const monsterSchema = new mongoose.Schema(
 const Monster = mongoose.model("Monster", monsterSchema);
 
 export default Monster;
-
-
-

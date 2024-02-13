@@ -9,6 +9,15 @@ export const getMonstersFromRepository = async (query) => {
     }
 }
 
+export const getMonsterFromRepository = async (query) => {
+    try {
+        const monster = await Monster.findOne(query);
+        return monster;
+    } catch (error) {
+        throw new Error(error.message, "Error while fetching a monster from the database.");
+    }
+}
+
 export const createMonstersInRepository = async (monster) => {
     try {
         const newMonster = new Monster(monster);
@@ -33,7 +42,7 @@ export const updateMonstersInRepository = async (query, monster) => {
     }
 }
 
-export const deleteMonstersFromRepository = async (query) => {
+export const deleteMonsterFromRepository = async (query) => {
     try {
         const deletedMonster = await Monster.findOneAndDelete({ ...query });
         return deletedMonster;
