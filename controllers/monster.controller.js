@@ -1,9 +1,9 @@
 import {
     getMonstersFromRepository,
     getMonsterFromRepository,
-    updateMonstersInRepository,
+    updateMonsterInRepository,
     deleteMonsterFromRepository,
-    createMonstersInRepository
+    createMonsterInRepository
 } from "../repositories/monster.repository.js";
 
 export const getMonsters = async (request, response) => {
@@ -19,7 +19,7 @@ export const getMonsters = async (request, response) => {
 export const getMonster = async (request, response) => {
     const id = request.params.id; // or request.params
     try {
-        const monster = await getMonsterFromRepository({ _id: id });
+        const monster = await getMonsterFromRepository({ id: id });
         // console.log("ID:", id); // Debugging
         // console.log(monster); // Debugging
         response.status(200).send(monster);
@@ -31,7 +31,18 @@ export const getMonster = async (request, response) => {
 export const createMonster = async (request, response) => {
     const { body } = request;
     try {
-        const newMonster = await createMonstersInRepository(body);
+        // Search and sort all monster IDs in ascending order
+        let monsters = await getMonstersFromRepository();
+        monsters.sort((a, b) => a.id - b.id);
+
+        // Make the new monster ID the next number in the sequence
+        let newId = monsters.length > 0 ? monsters[monsters.length - 1].id + 1 : 1;
+        body.id = newId;
+
+        const newMonster = await createMonsterInRepository(body);
+        // Make the new monster ID the next number in the sequence
+        newMonster.id = monsters[monsters.length - 1].id + 1;
+        
         // console.log("Body:", body); // Debugging
         // console.log(newMonster); // Debugging
         response.status(200).send(newMonster);
@@ -41,13 +52,13 @@ export const createMonster = async (request, response) => {
 }
 
 export const updateMonster = async (request, response) => {
-    const { id } = request.params.id; // or request.params
+    const id = request.params.id; // or request.params
     const { body } = request;
     try {
-        const updatedMonster = await updateMonstersInRepository({ _id: id }, body);
-        // console.log("ID:", id); // Debugging
+        const updatedMonster = await updateMonsterInRepository({ id: id }, body);
+        // console.log("id:", id); // Debugging
         // console.log("Body:", body); // Debugging
-        // console.log(updatedMonster); // Debugging
+        // console.log("Updated Monster:", updatedMonster); // Debugging
         response.status(200).send(updatedMonster);
     } catch (error) {
         response.status(500).send(error.message, `Failed to update monster ${id}.`)
@@ -57,7 +68,7 @@ export const updateMonster = async (request, response) => {
 export const deleteMonster = async (request, response) => {
     const id = request.params.id; // or request.params
     try {
-        const monster = await deleteMonsterFromRepository({ _id: id });
+        const monster = await deleteMonsterFromRepository({ id: id });
         // console.log(monster); // Debugging
         if (monster) {
             response.status(204).send();

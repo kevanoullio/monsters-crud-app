@@ -18,7 +18,7 @@ export const getMonsterFromRepository = async (query) => {
     }
 }
 
-export const createMonstersInRepository = async (monster) => {
+export const createMonsterInRepository = async (monster) => {
     try {
         const newMonster = new Monster(monster);
         const savedMonster = await newMonster.save();
@@ -29,7 +29,7 @@ export const createMonstersInRepository = async (monster) => {
     }
 }
 
-export const updateMonstersInRepository = async (query, monster) => {
+export const updateMonsterInRepository = async (query, monster) => {
     try {
         const updatedMonster = await Monster.findOneAndUpdate(
             { ...query },
