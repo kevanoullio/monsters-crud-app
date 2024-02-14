@@ -3,6 +3,11 @@ import Monster from "../models/monster.model.js";
 export const getMonstersFromRepository = async (query) => {
     try {
         const monsters = await Monster.find(query);
+
+        if (!monsters) {
+            throw new Error("No monsters found in the database.");
+        }
+
         return monsters;
     } catch (error) {
         throw new Error(error.message, "Error while fetching monsters from database.");
@@ -12,6 +17,11 @@ export const getMonstersFromRepository = async (query) => {
 export const getMonsterFromRepository = async (query) => {
     try {
         const monster = await Monster.findOne(query);
+
+        if (!monster) {
+            throw new Error("Monster not found in the database.");
+        }
+
         return monster;
     } catch (error) {
         throw new Error(error.message, "Error while fetching a monster from the database.");
@@ -21,11 +31,11 @@ export const getMonsterFromRepository = async (query) => {
 export const createMonsterInRepository = async (payload) => {
     try {
         // Search and sort all monster IDs in ascending order
-        let monsters = await getMonstersFromRepository();
+        const monsters = await getMonstersFromRepository();
         monsters.sort((a, b) => a.id - b.id);
 
         // Make the new monster ID the next number in the sequence
-        let newId = monsters.length > 0 ? monsters[monsters.length - 1].id + 1 : 1;
+        const newId = monsters.length > 0 ? monsters[monsters.length - 1].id + 1 : 1;
         const monster = { ...payload, id: newId};
         
         // Create a new monster in the database
@@ -37,16 +47,28 @@ export const createMonsterInRepository = async (payload) => {
     }
 }
 
-export const updateMonsterInRepository = async (query, monster) => {
+export const updateMonsterInRepository = async (query, payload) => {
     try {
+        // lean() returns a plain JavaScript object instead of a Mongoose document
+        const monster = await Monster.findOne({ ...query }).lean(); 
+        
+        if (!monster) {
+            throw new Error("Monster not found in the database.");
+        }
+
         const updatedMonster = await Monster.findOneAndUpdate(
             { ...query },
-            { ...monster },
+            { ...payload },
             { new: true }
         ).lean(); // lean() returns a plain JavaScript object instead of a Mongoose document
+        
         return updatedMonster;
     } catch (error) {
-        throw new Error("Error while updating a monster in the database.");
+        if (error.message === "Monster not found in the database.")
+            throw error;
+        else {
+            throw new Error("Error while updating a monster in the database.");
+        }
     }
 }
 
