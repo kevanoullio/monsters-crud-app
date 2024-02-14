@@ -18,8 +18,17 @@ export const getMonsterFromRepository = async (query) => {
     }
 }
 
-export const createMonsterInRepository = async (monster) => {
+export const createMonsterInRepository = async (payload) => {
     try {
+        // Search and sort all monster IDs in ascending order
+        let monsters = await getMonstersFromRepository();
+        monsters.sort((a, b) => a.id - b.id);
+
+        // Make the new monster ID the next number in the sequence
+        let newId = monsters.length > 0 ? monsters[monsters.length - 1].id + 1 : 1;
+        const monster = { ...payload, id: newId};
+        
+        // Create a new monster in the database
         const newMonster = new Monster(monster);
         const savedMonster = await newMonster.save();
         // const newMonster = await Monster.create(monster);

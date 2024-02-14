@@ -31,18 +31,7 @@ export const getMonster = async (request, response) => {
 export const createMonster = async (request, response) => {
     const { body } = request;
     try {
-        // Search and sort all monster IDs in ascending order
-        let monsters = await getMonstersFromRepository();
-        monsters.sort((a, b) => a.id - b.id);
-
-        // Make the new monster ID the next number in the sequence
-        let newId = monsters.length > 0 ? monsters[monsters.length - 1].id + 1 : 1;
-        body.id = newId;
-
         const newMonster = await createMonsterInRepository(body);
-        // Make the new monster ID the next number in the sequence
-        newMonster.id = monsters[monsters.length - 1].id + 1;
-        
         // console.log("Body:", body); // Debugging
         // console.log(newMonster); // Debugging
         response.status(200).send(newMonster);
