@@ -18,4 +18,9 @@ router.post("/", createMonster);
 router.patch("/:id", updateMonster);
 router.delete("/:id", deleteMonster);
 
+// Route not found
+router.use((request, response, next) => {
+    response.status(404).send("Page not found.");
+});
+
 export default router;

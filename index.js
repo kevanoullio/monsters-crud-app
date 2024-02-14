@@ -13,8 +13,13 @@ connectDB();
 // Middleware
 app.use(bodyParser.json()); // Parse incoming request bodies in json format
 
-// Routers
+// Routes
 app.use("/monsters", monsters);
+
+// Error handling for invalid routes
+app.use((request, response, next) => {
+    response.status(404).send("Page not found.");
+});
 
 // Start the server
 app.listen(port, function () {
