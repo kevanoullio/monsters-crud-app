@@ -31,8 +31,7 @@ export const createMonsterInRepository = async (payload) => {
         // Create a new monster in the database
         const newMonster = new Monster(monster);
         const savedMonster = await newMonster.save();
-        // const newMonster = await Monster.create(monster);
-        return newMonster;
+        return savedMonster;
     } catch (error) {
         throw new Error(error.message, "Error while creating a new monster in the database.");
     }
@@ -47,7 +46,7 @@ export const updateMonsterInRepository = async (query, monster) => {
         ).lean(); // lean() returns a plain JavaScript object instead of a Mongoose document
         return updatedMonster;
     } catch (error) {
-        throw new Error(error.message, "Error while updating a monster in the database.");
+        throw new Error("Error while updating a monster in the database.");
     }
 }
 
@@ -56,6 +55,6 @@ export const deleteMonsterFromRepository = async (query) => {
         const deletedMonster = await Monster.findOneAndDelete({ ...query });
         return deletedMonster;
     } catch (error) {
-        throw new Error(error.message, "Error while deleting a monster from the database.");
+        throw new Error("Error while deleting a monster from the database.");
     }
 }
