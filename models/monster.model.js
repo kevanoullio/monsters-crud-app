@@ -71,7 +71,7 @@ const monsterSchema = new mongoose.Schema(
         },
         image_url: {
             type: String,
-            required: false,
+            required: true,
         }
     },
     {

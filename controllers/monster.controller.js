@@ -18,6 +18,12 @@ export const getMonsters = async (response) => {
 
 export const getMonster = async (request, response) => {
     const id = request.params.id; // or request.params
+
+    if (!id) {
+        response.status(400).send("Monster id is required.");
+        return;
+    }
+
     try {
         const monster = await getMonsterFromRepository({ id: id });
         response.status(200).send(monster);
@@ -29,6 +35,12 @@ export const getMonster = async (request, response) => {
 
 export const createMonster = async (request, response) => {
     const { body } = request;
+    
+    if (!body || Object.keys(body).length === 0) {
+        response.status(400).send("Monster data is required.");
+        return;
+    }
+
     try {
         const newMonster = await createMonsterInRepository(body);
         response.status(200).send(newMonster);
@@ -41,6 +53,17 @@ export const createMonster = async (request, response) => {
 export const updateMonster = async (request, response) => {
     const id = request.params.id; // or request.params
     const { body } = request;
+    
+    if (!id) {
+        response.status(400).send("Monster id is required.");
+        return;
+    }
+
+    if (!body || Object.keys(body).length === 0) {
+        response.status(400).send("Monster data is required.");
+        return;
+    }
+    
     try {
         const updatedMonster = await updateMonsterInRepository({ id: id }, body);
         response.status(200).send(updatedMonster);
@@ -52,6 +75,12 @@ export const updateMonster = async (request, response) => {
 
 export const deleteMonster = async (request, response) => {
     const id = request.params.id; // or request.params
+    
+    if (!id) {
+        response.status(400).send("Monster id is required.");
+        return;
+    }
+    
     try {
         const monster = await deleteMonsterFromRepository({ id: id });
         if (monster) {
