@@ -12,7 +12,7 @@ export const getMonsters = async (response) => {
         response.status(200).send(monsters);
     } catch (error) {
         console.log(error); // Log the entire error object for debugging
-        response.status(500).send("Failed to fetch a list of monsters.")
+        response.status(500).send(`Failed to fetch a list of monsters. Error: ${error.message}.`)
     }
 }
 
@@ -23,7 +23,7 @@ export const getMonster = async (request, response) => {
         response.status(200).send(monster);
     } catch (error) {
         console.log(error); // Log the entire error object for debugging
-        response.status(500).send(`Failed to fetch monster with id=${id}`)
+        response.status(500).send(`Failed to fetch monster with id=${id}. Error: ${error.message}.`)
     }
 }
 
@@ -34,7 +34,7 @@ export const createMonster = async (request, response) => {
         response.status(200).send(newMonster);
     } catch (error) {
         console.log(error); // Log the entire error object for debugging
-        response.status(500).send("Failed to create a new monster.")
+        response.status(500).send(`Failed to create a new monster. Error: ${error.message}.`)
     }
 }
 
@@ -46,7 +46,7 @@ export const updateMonster = async (request, response) => {
         response.status(200).send(updatedMonster);
     } catch (error) {
         console.log(error); // Log the entire error object for debugging
-        response.status(500).send(`Failed to update monster with id=${id}.`)
+        response.status(500).send(`Failed to update monster with id=${id}. Error: ${error.message}.`)
     }
 }
 
@@ -61,6 +61,6 @@ export const deleteMonster = async (request, response) => {
         };
     } catch (error) {
         console.log(error); // Log the entire error object for debugging
-        response.status(500).send(`Failed to delete monster with id=${id}.`)
+        response.status(500).send(`Failed to delete monster with id=${id}. Error: ${error.message}.`)
     }
 }
