@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 
 // Use the port defined in the environment variable
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
 // Connect to the database
 connectDB();
@@ -34,5 +34,5 @@ app.use((request, response, next) => {
 
 // Start the server
 app.listen(port, function () {
-    console.log(`🚀 Fire app listening on port ${port}!`);
+    console.log(`🚀 Monster app listening on port ${port}!`);
 });

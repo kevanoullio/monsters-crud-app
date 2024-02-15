@@ -50,7 +50,7 @@ export const createMonster = async (request, response) => {
 
     try {
         const newMonster = await createMonsterInRepository(body);
-        response.status(200).send(newMonster);
+        response.status(201).send(newMonster);
     } catch (error) {
         console.log(error); // Log the entire error object for debugging
         response.status(500).send(`Failed to create a new monster. Error: ${error.message}`)
