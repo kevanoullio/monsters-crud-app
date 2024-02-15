@@ -6,10 +6,17 @@ import {
     createMonsterInRepository
 } from "../repositories/monster.repository.js";
 
-export const getMonsters = async (response) => {
+export const getMonsters = async (request, response) => {
     try {
         const monsters = await getMonstersFromRepository();
-        response.status(200).send(monsters);
+        
+        if (monsters.length === 0) {
+            response.status(404).send("No monsters found.");
+            return;
+        } else {
+            response.status(200).send(monsters);
+        }
+        
     } catch (error) {
         console.log(error); // Log the entire error object for debugging
         response.status(500).send(`Failed to fetch a list of monsters. Error: ${error.message}`)
@@ -84,7 +91,7 @@ export const deleteMonster = async (request, response) => {
     try {
         const monster = await deleteMonsterFromRepository({ id: id });
         if (monster) {
-            response.status(204).send();
+            response.status(204).send(`Monster with id=${id} deleted successfully.`);
         } else {
             response.status(404).send(`Monster with id=${id} not found.`);
         };

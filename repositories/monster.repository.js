@@ -3,14 +3,13 @@ import Monster from "../models/monster.model.js";
 export const getMonstersFromRepository = async (query) => {
     try {
         const monsters = await Monster.find(query);
-
-        if (!monsters) {
-            throw new Error("No monsters found in the database.");
-        }
-
-        return monsters;
+        return monsters || [];
     } catch (error) {
-        throw new Error(error.message, "Error while fetching monsters from database.");
+        if (error.message === "No monsters found in the database.")
+            throw error;
+        else {
+            throw new Error(error.message, "Error while fetching monsters from database.");
+        }
     }
 }
 
@@ -24,7 +23,11 @@ export const getMonsterFromRepository = async (query) => {
 
         return monster;
     } catch (error) {
-        throw new Error(error.message, "Error while fetching a monster from the database.");
+        if (error.message === "Monster not found in the database.")
+            throw error;
+        else {
+            throw new Error(error.message, "Error while fetching a monster from the database.");
+        }
     }
 }
 
@@ -32,6 +35,7 @@ export const createMonsterInRepository = async (payload) => {
     try {
         // Search and sort all monster IDs in ascending order
         const monsters = await getMonstersFromRepository();
+
         monsters.sort((a, b) => a.id - b.id);
 
         // Make the new monster ID the next number in the sequence
@@ -74,9 +78,21 @@ export const updateMonsterInRepository = async (query, payload) => {
 
 export const deleteMonsterFromRepository = async (query) => {
     try {
+         // lean() returns a plain JavaScript object instead of a Mongoose document
+        const monster = await Monster.findOne({ ...query }).lean(); 
+        
+        if (!monster || Object.keys(monster).length === 0) {
+            throw new Error("Monster not found in the database.");
+        }
+
         const deletedMonster = await Monster.findOneAndDelete({ ...query });
+        
         return deletedMonster;
     } catch (error) {
-        throw new Error("Error while deleting a monster from the database.");
+        if (error.message === "Monster not found in the database.")
+            throw error;
+        else {
+            throw new Error("Error while deleting a monster from the database.");
+        }
     }
 }
